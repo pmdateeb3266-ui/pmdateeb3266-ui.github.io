@@ -73,7 +73,8 @@
     clip-path: inherit; display: flex; align-items: center; justify-content: center;
     font-size: 110px; font-weight: 800; color: var(--main); overflow: hidden;
   }
-  .hex-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.15); }
+  .hex-inner:has(img) { background: #e9eef5; }
+  .hex-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(.92) translateY(9%); transform-origin: center bottom; }
   @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
 
   /* ---------- Section headings ---------- */
@@ -429,10 +430,16 @@ const ICONS = {
   pin: '<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>'
 };
 
+// Gmail web compose works even when the visitor has no desktop mail app (where mailto: does nothing).
+function mailLink(subject = '', body = '') {
+  return 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(P.email)
+    + (subject ? '&su=' + encodeURIComponent(subject) : '') + (body ? '&body=' + encodeURIComponent(body) : '');
+}
+
 function socialLinks() {
   return ['linkedin', 'github', 'instagram'].filter(k => P[k])
     .map(k => `<a href="${esc(P[k])}" target="_blank" rel="noopener" aria-label="${k}">${ICONS[k]}</a>`).join('')
-    + (P.email ? `<a href="mailto:${esc(P.email)}" aria-label="email">${ICONS.email}</a>` : '');
+    + (P.email ? `<a href="${mailLink()}" target="_blank" rel="noopener" aria-label="email">${ICONS.email}</a>` : '');
 }
 
 /* ---- Render ---- */
@@ -495,7 +502,7 @@ if (P.certifications && P.certifications.length) {
 
 $('open-to').textContent = P.openTo;
 $('contact-lines').innerHTML = [
-  P.email && `<a class="c-line" href="mailto:${esc(P.email)}"><span class="ci">${ICONS.email}</span>${esc(P.email)}</a>`,
+  P.email && `<a class="c-line" href="${mailLink()}" target="_blank" rel="noopener"><span class="ci">${ICONS.email}</span>${esc(P.email)}</a>`,
   P.phone && `<a class="c-line" href="tel:${esc(P.phone.replace(/\s/g, ''))}"><span class="ci">${ICONS.phone}</span>${esc(P.phone)}</a>`,
   P.location && `<div class="c-line"><span class="ci">${ICONS.pin}</span>${esc(P.location)}</div>`
 ].filter(Boolean).join('');
@@ -520,7 +527,7 @@ $('contact-form').addEventListener('submit', e => {
   e.preventDefault();
   const subject = $('f-subject').value || `Portfolio enquiry from ${$('f-name').value}`;
   const body = `${$('f-msg').value}\n\n— ${$('f-name').value} (${$('f-email').value})`;
-  window.location.href = `mailto:${P.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.open(mailLink(subject, body), '_blank', 'noopener');
 });
 
 /* ---- Header, menu, active link, reveal ---- */
