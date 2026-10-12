@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #1f242d;
+    --bg-2: #323946;
+    --card: #262b35;
+    --text: #fff;
+    --muted: #b6bcc8;
+    --main: #0ef;
+    --line: rgba(255,255,255,.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  section { min-height: 100vh; padding: 110px 9% 60px; }
+  section:nth-of-type(even) { background: var(--bg-2); }
+
+  /* ---------- Header ---------- */
+  .header {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    padding: 22px 9%; display: flex; align-items: center; justify-content: space-between;
+    transition: .3s;
+  }
+  .header.sticky { background: rgba(31,36,45,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding: 16px 9%; }
+  .logo { font-size: 25px; font-weight: 700; }
+  .logo span { color: var(--main); }
+  .navbar a { font-size: 16px; font-weight: 500; margin-left: 34px; transition: .3s; }
+  .navbar a:hover, .navbar a.active { color: var(--main); }
+  #menu-btn { display: none; font-size: 30px; cursor: pointer; background: none; border: 0; color: var(--text); }
+
+  /* ---------- Hero ---------- */
+  .home { display: flex; align-items: center; justify-content: space-between; gap: 50px; }
+  .home-content h3 { font-size: 30px; font-weight: 700; }
+  .home-content h3.role { margin-bottom: 18px; }
+  .home-content h1 { font-size: 56px; font-weight: 700; line-height: 1.25; }
+  .typed { color: var(--main); border-right: 3px solid var(--main); padding-right: 4px; animation: caret .8s step-end infinite; }
+  @keyframes caret { 50% { border-color: transparent; } }
+  .home-content p { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.7; }
+  .tagline { display: inline-block; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--main); margin-bottom: 14px; }
+  .social { margin: 30px 0 34px; display: flex; gap: 14px; }
+  .social a {
+    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    border: 2px solid var(--main); border-radius: 50%; color: var(--main); transition: .4s;
+  }
+  .social a svg { width: 18px; height: 18px; fill: currentColor; }
+  .social a:hover { background: var(--main); color: var(--bg); box-shadow: 0 0 20px var(--main); }
+  .btn {
+    display: inline-block; padding: 12px 28px; background: var(--main); border-radius: 40px;
+    box-shadow: 0 0 10px var(--main); font-size: 15px; color: var(--bg); letter-spacing: 1px;
+    font-weight: 600; transition: .4s; border: 2px solid var(--main); cursor: pointer;
+  }
+  .btn:hover { box-shadow: 0 0 28px var(--main); }
+  .btn.ghost { background: transparent; color: var(--main); box-shadow: none; margin-left: 12px; }
+  .btn.ghost:hover { background: var(--main); color: var(--bg); box-shadow: 0 0 20px var(--main); }
+
+  .home-img { flex-shrink: 0; filter: drop-shadow(0 0 25px var(--main)); animation: float 5s ease-in-out infinite; }
+  .hex {
+    width: 380px; height: 420px; background: var(--main);
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    display: flex; align-items: center; justify-content: center; position: relative;
+  }
+  .hex-inner {
+    width: calc(100% - 14px); height: calc(100% - 16px); background: var(--bg-2);
+    clip-path: inherit; display: flex; align-items: center; justify-content: center;
+    font-size: 110px; font-weight: 800; color: var(--main); overflow: hidden;
+  }
+  .hex-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.15); }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+
+  /* ---------- Section headings ---------- */
+  .heading { text-align: center; margin-bottom: 55px; }
+  .heading small { display: block; font-size: 13px; letter-spacing: 3px; color: var(--main); text-transform: uppercase; margin-bottom: 8px; }
+  .heading h2 { font-size: 42px; font-weight: 700; }
+  .heading h2 span { color: var(--main); }
+
+  /* ---------- About ---------- */
+  .about { display: flex; align-items: center; justify-content: center; }
+  .about-wrap { max-width: 900px; text-align: center; }
+  .about-wrap p { color: var(--muted); font-size: 16px; line-height: 1.85; margin-bottom: 18px; }
+  .stats { display: flex; justify-content: center; gap: 22px; margin: 34px 0; flex-wrap: wrap; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px 30px; min-width: 160px; }
+  .stat b { display: block; font-size: 34px; color: var(--main); }
+  .stat span { font-size: 13px; color: var(--muted); }
+
+  /* ---------- Timeline (experience) ---------- */
+  .timeline { position: relative; max-width: 980px; margin: 0 auto; }
+  .timeline::before { content: ''; position: absolute; left: 22px; top: 0; bottom: 0; width: 2px; background: var(--main); box-shadow: 0 0 10px var(--main); }
+  .t-item { position: relative; padding-left: 70px; margin-bottom: 34px; }
+  .t-dot { position: absolute; left: 0; top: 4px; width: 46px; height: 46px; border-radius: 50%; background: var(--bg); border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--main); box-shadow: 0 0 12px var(--main); }
+  .card { background: var(--card); border: 2px solid var(--line); border-radius: 20px; padding: 26px 28px; transition: .4s; }
+  .card:hover { border-color: var(--main); transform: translateY(-4px); box-shadow: 0 0 22px rgba(0,238,255,.25); }
+  .t-date { font-size: 13px; color: var(--main); letter-spacing: 1px; font-weight: 600; }
+  .card h3 { font-size: 20px; margin: 4px 0 2px; }
+  .card h4 { font-size: 15px; font-weight: 500; color: var(--muted); }
+  .meta { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .card ul { margin: 14px 0 0 18px; color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .tag { font-size: 12px; padding: 4px 12px; border-radius: 30px; border: 1px solid var(--main); color: var(--main); }
+
+  /* ---------- Skills ---------- */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
+  .skill { background: var(--card); border: 2px solid var(--line); border-radius: 18px; padding: 24px 16px; text-align: center; transition: .4s; }
+  .skill:hover { border-color: var(--main); box-shadow: 0 0 18px rgba(0,238,255,.3); transform: translateY(-5px); }
+  .skill .ico { width: 58px; height: 58px; margin: 0 auto 12px; border-radius: 50%; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; color: var(--main); font-weight: 700; font-size: 15px; }
+  .skill h4 { font-size: 16px; }
+  .skill span { font-size: 12.5px; color: var(--muted); }
+
+  /* ---------- Projects ---------- */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+  .project { display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+  .p-visual { background: linear-gradient(160deg, #15191f, #2a303b); padding: 26px 20px; text-align: center; border-bottom: 1px solid var(--line); position: relative; }
+  .p-visual .num { position: absolute; top: 12px; right: 18px; font-size: 34px; font-weight: 800; color: rgba(0,238,255,.18); }
+  .p-visual .cat { font-size: 11px; letter-spacing: 2px; color: var(--main); margin-bottom: 12px; }
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 13px; }
+  .flow .step { padding: 6px 14px; border: 1px solid var(--main); border-radius: 10px; background: rgba(0,238,255,.06); }
+  .flow .arr { color: var(--main); font-size: 12px; }
+  .p-body { padding: 22px 24px 24px; display: flex; flex-direction: column; flex: 1; }
+  .p-body p { color: var(--muted); font-size: 14.5px; line-height: 1.7; margin-top: 8px; }
+  .p-body .foot { margin-top: auto; padding-top: 16px; font-size: 12.5px; color: var(--muted); }
+  .p-body .link { color: var(--main); font-weight: 600; font-size: 14px; display: inline-block; margin-top: 10px; }
+
+  /* ---------- Education ---------- */
+  .edu-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; margin: 0 auto; }
+  .edu-cols h3.col-title { font-size: 22px; margin-bottom: 20px; }
+  .edu-cols h3.col-title span { color: var(--main); }
+  .stack { display: flex; flex-direction: column; gap: 18px; }
+
+  /* ---------- Contact ---------- */
+  .contact-wrap { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 36px; }
+  .contact-info p { color: var(--muted); line-height: 1.75; margin-bottom: 24px; }
+  .c-line { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; font-size: 15px; }
+  .c-line .ci { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--main); display: flex; align-items: center; justify-content: center; color: var(--main); flex-shrink: 0; }
+  .c-line .ci svg { width: 17px; height: 17px; fill: currentColor; }
+  form .row { display: flex; gap: 14px; }
+  form input, form textarea {
+    width: 100%; padding: 14px 16px; margin-bottom: 14px; background: var(--card); color: var(--text);
+    border: 2px solid var(--line); border-radius: 12px; font-size: 15px; outline: none; transition: .3s;
+  }
+  form input:focus, form textarea:focus { border-color: var(--main); box-shadow: 0 0 12px rgba(0,238,255,.25); }
+  form textarea { resize: vertical; min-height: 150px; }
+
+  footer { padding: 24px 9%; display: flex; justify-content: space-between; align-items: center; background: var(--bg); border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .top-btn { width: 40px; height: 40px; border-radius: 10px; background: var(--main); color: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; box-shadow: 0 0 10px var(--main); }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.show { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .home-content h1 { font-size: 46px; }
+    .hex { width: 320px; height: 354px; }
+  }
+  @media (max-width: 900px) {
+    #menu-btn { display: block; }
+    .navbar { position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg); border-top: 1px solid var(--line); display: none; padding: 10px 9% 20px; }
+    .navbar.open { display: block; }
+    .navbar a { display: block; margin: 16px 0; font-size: 18px; }
+    .home { flex-direction: column-reverse; text-align: center; padding-top: 120px; }
+    .home-content p { margin: 0 auto; }
+    .social { justify-content: center; }
+    .edu-cols, .contact-wrap { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    section { padding: 100px 16px 50px; }
+    .header, .header.sticky { padding-left: 16px; padding-right: 16px; }
+    .home-content h1 { font-size: 36px; }
+    .home-content h3 { font-size: 22px; }
+    .heading h2 { font-size: 32px; }
+    .hex { width: 250px; height: 278px; }
+    .hex-inner { font-size: 72px; }
+    .btn.ghost { margin: 12px 0 0; }
+    .projects-grid { grid-template-columns: 1fr; }
+    form .row { flex-direction: column; gap: 0; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<script>
+/* =====================================================================
+   YOUR PROFILE — edit everything in this object. The page builds itself.
+   ===================================================================== */
+const PROFILE = {
+  name: "Ateeb Mohammad",
+  initials: "AM",
+  photo: "photo.webp",
+  headline: "AI Engineer | Generative AI | NLP | Machine Learning",
+  roles: ["AI Engineer", "GenAI Developer", "RAG Specialist", "ML Engineer"],
+  intro: "I build production-grade AI systems — RAG applications, LLM-powered chatbots, data-analysis agents and document-intelligence workflows — with a focus on reliability and traceability.",
+  resume: "Ateeb_Mohammad_AI_Engineer.pdf",
+  location: "Dubai, United Arab Emirates",
+  email: "mdateeb3266@gmail.com",
+  phone: "",
+  linkedin: "https://www.linkedin.com/in/ateeb-mohammad-md2404a32/",
+  github: "https://github.com/pmdateeb3266-ui",
+  instagram: "",
+  openTo: "Open to AI Engineer, Generative AI, NLP, Machine Learning and AI Automation roles. Based in Dubai — available to join immediately, on-site.",
+
+  about: [
+    "I'm an Artificial Intelligence Engineer who builds and integrates production-grade AI/ML systems: RAG applications, LLM-powered chatbots, data-analysis agents, document-intelligence workflows and machine-learning solutions.",
+    "At Siyaton Global Solutions I've delivered 3 production AI/ML solutions, designing end-to-end workflows from ingestion and preprocessing through retrieval, model interaction, grounded generation, validation and software integration. Before AI, I worked across robotics (ROS / ROS 2), UAV aerial mapping for Government of India surveys, and mmWave wireless systems — so I'm comfortable where software meets the real world.",
+    "I work mainly with Python, SQL, LLMs, AI agents, vector databases (ChromaDB), embeddings, OCR and Streamlit, and I care about translating business requirements into maintainable, well-documented AI capabilities."
+  ],
+  stats: [
+    { value: "3",    label: "Production AI/ML solutions" },
+    { value: "4+",   label: "Years in engineering roles" },
+    { value: "98%",  label: "Doc-search time cut (RAG)" },
+    { value: "20+",  label: "Govt. aerial-mapping missions" }
+  ],
+
+  experience: [
+    {
+      badge: "SG", title: "Artificial Intelligence Engineer", company: "Siyaton Global Solutions Inc.", type: "Hyderabad, India",
+      date: "AUG 2025 — PRESENT",
+      points: [
+        "Delivered 3 production-grade AI/ML solutions — data-analysis agents, conversational chatbots and RAG pipelines — using Python and LLM-powered workflows.",
+        "Designed end-to-end AI agent and workflow architectures covering ingestion, preprocessing, retrieval, model interaction, grounded generation, validation and product integration.",
+        "Developed reusable prompt-engineering and structured LLM interaction patterns to improve response relevance and consistency.",
+        "Applied semantic retrieval, vector databases, embeddings, query routing and document processing to build reliable AI for business workflows.",
+        "Built validation and quality-check patterns to improve reliability and traceability of AI-generated outputs.",
+        "Partnered with cross-functional teams to turn business requirements into AI capabilities integrated into core software products."
+      ],
+      tags: ["Python", "LLMs", "RAG", "AI Agents", "Vector DBs", "Prompt Engineering"]
+    },
+    {
+      badge: "AV", title: "AI and Robotics Intern", company: "AI Variant", type: "Hyderabad, India",
+      date: "JAN 2025 — JUL 2025",
+      points: [
+        "Applied ROS and ROS 2 to autonomous robotics architectures, including sensor integration, navigation, perception and automation workflows.",
+        "Supported automation configuration, system optimization, reliability improvement, testing and software-hardware integration."
+      ],
+      tags: ["ROS", "ROS 2", "Perception", "Navigation"]
+    },
+    {
+      badge: "AU", title: "Drone Engineer", company: "Aarav Unmanned Systems Pvt. Ltd.", type: "Bengaluru, India",
+      date: "MAR 2023 — NOV 2024",
+      points: [
+        "Completed 20+ aerial-mapping missions for Government of India infrastructure surveys with a 95%+ UAV mission success rate in challenging terrain.",
+        "Processed geospatial survey data into orthomosaic maps supporting infrastructure assessment for government stakeholders.",
+        "Applied real-time monitoring, operational checks and corrective decision-making to keep mission outcomes reliable."
+      ],
+      tags: ["UAV", "Geospatial Data", "Orthomosaics"]
+    },
+    {
+      badge: "AT", title: "Wireless Communication Intern", company: "Astrome Technologies Pvt. Ltd.", type: "Bengaluru, India",
+      date: "MAY 2022 — FEB 2023",
+      points: [
+        "Supported development and testing of the GigaMesh mmWave backhaul platform through RF link-budget analysis, field measurements and wireless-link evaluation.",
+        "Assisted with hardware-software integration, micro-firmware validation, testing and technical documentation."
+      ],
+      tags: ["RF", "mmWave", "Firmware Validation"]
+    }
+  ],
+
+  skills: [
+    { ico: "Py",  name: "Python",            note: "Programming" },
+    { ico: "SQL", name: "SQL & SQLite",      note: "Data queries" },
+    { ico: "LLM", name: "LLMs",              note: "Language models" },
+    { ico: "RAG", name: "RAG",               note: "Grounded generation" },
+    { ico: "AI",  name: "AI Agents",         note: "Agentic workflows" },
+    { ico: "PE",  name: "Prompt Engineering",note: "LLM interaction" },
+    { ico: "VDB", name: "ChromaDB",          note: "Vector database" },
+    { ico: "EMB", name: "Embeddings",        note: "Semantic retrieval" },
+    { ico: "NLP", name: "NLP",               note: "Language processing" },
+    { ico: "OCR", name: "Tesseract OCR",     note: "Document intelligence" },
+    { ico: "CV",  name: "OpenCV",            note: "Computer vision" },
+    { ico: "ML",  name: "Machine Learning",  note: "Training & evaluation" },
+    { ico: "Pd",  name: "Pandas",            note: "Data analysis" },
+    { ico: "St",  name: "Streamlit",         note: "AI apps" },
+    { ico: "Ol",  name: "Ollama & Qwen3",    note: "Local LLMs" },
+    { ico: "ROS", name: "ROS / ROS 2",       note: "Robotics" },
+    { ico: "C++", name: "C++",               note: "Embedded systems" },
+    { ico: "Git", name: "Git & GitHub",      note: "Version control" }
+  ],
+
+  projects: [
+    {
+      cat: "AGENTIC RAG · DOCUMENT AI", title: "Agentic Multilingual RAG Knowledge Assistant",
+      flow: ["Native & scanned PDFs", "Adaptive OCR + layout-aware ingestion", "Query router: SQLite ⇄ ChromaDB", "Grounded answer + sources"],
+      desc: "A local-first agentic RAG system supporting 6 languages (English, Telugu, Hindi, Kannada, German, Arabic). Cut estimated manual document-search time by 98%, routing exact lookups to SQLite and natural-language questions to ChromaDB, with source tracking and OCR-confidence metadata for auditability.",
+      tags: ["Python", "RAG", "ChromaDB", "SQLite", "Tesseract", "OpenCV", "Qwen3", "Ollama"], foot: "Key AI project", link: ""
+    },
+    {
+      cat: "CONVERSATIONAL AI · ANALYTICS", title: "AI-Powered Data Analysis Chatbot",
+      flow: ["Upload dataset", "Ask in plain English", "LLM → validated data ops", "Charts + KPI summaries"],
+      desc: "An LLM-powered app that lets non-technical users clean, transform, aggregate and analyze datasets without writing Python or SQL — with follow-up questions, dynamic visualizations, automated KPI summaries and validation checks on generated operations.",
+      tags: ["Python", "Pandas", "SQL", "LLMs", "Streamlit"], foot: "Key AI project", link: ""
+    },
+    {
+      cat: "MACHINE LEARNING · CYBERSECURITY", title: "AI-Based Intrusion Detection System",
+      flow: ["Network traffic data", "Feature selection", "SVM · KNN · AdaBoost · DT · NN", "Normal / attack"],
+      desc: "A machine-learning network intrusion detection system that classifies suspicious activity, benchmarking ML predictions against rule-based baselines to compare detection performance.",
+      tags: ["Python", "Scikit-learn", "TensorFlow", "Cybersecurity"], foot: "Independent project",
+      link: "https://github.com/pmdateeb3266-ui/ARTIFICIAL-INTELLIGENCE-FOR-CYBER-SECURITY---IDS"
+    },
+    {
+      cat: "ROBOTICS · AUTONOMY", title: "Autonomous Obstacle-Avoiding Mobile Robot",
+      flow: ["Sensor-data filtering", "Localization + mapping", "Path planning", "Obstacle avoidance"],
+      desc: "A ROS / ROS 2 mobile robot with real-time sensor filtering for localization and perception, plus mapping, spatial path planning and obstacle avoidance for safe navigation in dynamic environments.",
+      tags: ["Python", "ROS", "ROS 2", "Navigation"], foot: "Robotics project", link: ""
+    },
+    {
+      cat: "EMBEDDED · IOT SECURITY", title: "Fingerprint Authentication for Automobile Ignition",
+      flow: ["Fingerprint scan", "Microcontroller verification", "Ignition unlock / lockout"],
+      desc: "A biometric security module built with C++, a microcontroller and an optical fingerprint sensor — an authentication-controlled ignition workflow that blocks vehicle access after failed attempts.",
+      tags: ["C++", "Embedded Systems", "IoT"], foot: "Embedded project", link: ""
+    }
+  ],
+
+  education: [
+    { date: "GRADUATED 2022", title: "B.Tech — Electronics & Communication Engineering", sub: "CGPA 7.2 / 10", place: "Jain (Deemed-to-be University), India" },
+    { date: "COMPLETED 2018", title: "Higher Secondary Education (Intermediate)", sub: "CGPA 9.5 / 10", place: "Narayana Junior College, India" }
+  ],
+  certifications: [],
+  strengths: ["Production AI/ML Development", "Python & SQL", "AI Agents & Agentic Workflows", "RAG & LLM Applications",
+    "Workflow Automation", "Semantic Retrieval & Vector DBs", "NLP & Document Intelligence", "Validation & Reliability",
+    "Software Integration", "Data Processing", "Cross-functional Delivery", "Dubai On-site Availability"]
+};
+</script>
+
+<header class="header" id="header">
+  <a href="#home" class="logo" id="logo"></a>
+  <button id="menu-btn" aria-label="Menu">&#9776;</button>
+  <nav class="navbar" id="navbar">
+    <a href="#home" class="active">Home</a>
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="home" id="home">
+  <div class="home-content">
+    <span class="tagline" id="headline"></span>
+    <h3>Hello, It's Me</h3>
+    <h1 id="name"></h1>
+    <h3 class="role">And I'm a <span class="typed" id="typed"></span></h3>
+    <p id="intro"></p>
+    <div class="social" id="social"></div>
+    <a class="btn" id="cv" target="_blank" rel="noopener">Download CV</a>
+    <a class="btn ghost" href="#contact">Hire Me</a>
+  </div>
+  <div class="home-img">
+    <div class="hex"><div class="hex-inner" id="photo"></div></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-wrap reveal">
+    <div class="heading"><small>About</small><h2>A little <span>background</span></h2></div>
+    <div id="about-text"></div>
+    <div class="stats" id="stats"></div>
+    <a href="#projects" class="btn">Explore my projects</a>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="heading reveal"><small>Experience</small><h2>Where I've <span>worked</span></h2></div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<section id="skills">
+  <div class="heading reveal"><small>Skills</small><h2>Tools &amp; <span>technologies</span></h2></div>
+  <div class="skills-grid" id="skills-grid"></div>
+</section>
+
+<section id="projects">
+  <div class="heading reveal"><small>Projects</small><h2>Selected <span>work</span></h2></div>
+  <div class="projects-grid" id="projects-grid"></div>
+</section>
+
+<section id="education">
+  <div class="heading reveal"><small>Education &amp; Strengths</small><h2>Learning <span>journey</span></h2></div>
+  <div class="edu-cols">
+    <div class="reveal"><h3 class="col-title">🎓 <span>Education</span></h3><div class="stack" id="edu"></div></div>
+    <div class="reveal"><h3 class="col-title" id="certs-title">⚡ <span>Core Strengths</span></h3><div class="stack" id="certs"></div></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="heading reveal"><small>Contact</small><h2>Have an opportunity in mind? <span>Let's talk.</span></h2></div>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <p id="open-to"></p>
+      <div id="contact-lines"></div>
+      <div class="social" id="social-2"></div>
+    </div>
+    <form class="reveal" id="contact-form">
+      <div class="row">
+        <input type="text" id="f-name" placeholder="Full Name" required />
+        <input type="email" id="f-email" placeholder="Email Address" required />
+      </div>
+      <input type="text" id="f-subject" placeholder="Subject" />
+      <textarea id="f-msg" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <p id="copy"></p>
+  <a href="#home" class="top-btn" aria-label="Back to top">&#8593;</a>
+</footer>
+
+<script>
+const P = PROFILE;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+
+const ICONS = {
+  linkedin: '<svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H9z"/></svg>',
+  github: '<svg viewBox="0 0 24 24"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s0-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 6.8a5.2 5.2 0 1 0 0 10.4 5.2 5.2 0 0 0 0-10.4zm0 8.6a3.4 3.4 0 1 1 0-6.8 3.4 3.4 0 0 1 0 6.8zm5.4-9.9a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>',
+  email: '<svg viewBox="0 0 24 24"><path d="M2 5h20v14H2zm2 2v.4l8 5.1 8-5.1V7zm16 2.8-8 5.1-8-5.1V17h16z"/></svg>',
+  phone: '<svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>',
+  pin: '<svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>'
+};
+
+function socialLinks() {
+  return ['linkedin', 'github', 'instagram'].filter(k => P[k])
+    .map(k => `<a href="${esc(P[k])}" target="_blank" rel="noopener" aria-label="${k}">${ICONS[k]}</a>`).join('')
+    + (P.email ? `<a href="mailto:${esc(P.email)}" aria-label="email">${ICONS.email}</a>` : '');
+}
+
+/* ---- Render ---- */
+document.title = `${P.name} | ${P.headline}`;
+const [first, ...rest] = P.name.split(' ');
+$('logo').innerHTML = `${esc(first)}<span>.</span>`;
+$('headline').textContent = P.headline;
+$('name').textContent = P.name;
+$('intro').textContent = P.intro;
+$('social').innerHTML = $('social-2').innerHTML = socialLinks();
+$('cv').href = P.resume;
+$('photo').innerHTML = P.photo ? `<img src="${esc(P.photo)}" alt="${esc(P.name)}">` : esc(P.initials);
+
+$('about-text').innerHTML = P.about.map(p => `<p>${esc(p)}</p>`).join('');
+$('stats').innerHTML = P.stats.map(s => `<div class="stat"><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join('');
+
+const tags = arr => `<div class="tags">${arr.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>`;
+
+$('timeline').innerHTML = P.experience.map(e => `
+  <div class="t-item reveal">
+    <div class="t-dot">${esc(e.badge)}</div>
+    <div class="card">
+      <div class="t-date">${esc(e.date)}</div>
+      <h3>${esc(e.title)}</h3>
+      <h4>${esc(e.company)}</h4>
+      <div class="meta">${esc(e.type)}</div>
+      <ul>${e.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>
+      ${tags(e.tags)}
+    </div>
+  </div>`).join('');
+
+$('skills-grid').innerHTML = P.skills.map(s => `
+  <div class="skill reveal"><div class="ico">${esc(s.ico)}</div><h4>${esc(s.name)}</h4><span>${esc(s.note)}</span></div>`).join('');
+
+$('projects-grid').innerHTML = P.projects.map((p, i) => `
+  <div class="card project reveal">
+    <div class="p-visual">
+      <div class="num">${String(i + 1).padStart(2, '0')}</div>
+      <div class="cat">${esc(p.cat)}</div>
+      <div class="flow">${p.flow.map(f => `<span class="step">${esc(f)}</span>`).join('<span class="arr">▼</span>')}</div>
+    </div>
+    <div class="p-body">
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.desc)}</p>
+      ${tags(p.tags)}
+      <div class="foot">${esc(p.foot)}</div>
+      ${p.link ? `<a class="link" href="${esc(p.link)}" target="_blank" rel="noopener">View on GitHub ↗</a>` : ''}
+    </div>
+  </div>`).join('');
+
+$('edu').innerHTML = P.education.map(e => `
+  <div class="card"><div class="t-date">${esc(e.date)}</div><h3>${esc(e.title)}</h3><h4>${esc(e.sub)}</h4><div class="meta">${esc(e.place)}</div></div>`).join('');
+if (P.certifications && P.certifications.length) {
+  $('certs-title').innerHTML = '📜 <span>Certifications</span>';
+  $('certs').innerHTML = P.certifications.map(c => `
+    <div class="card"><h3>${esc(c.title)}</h3><div class="meta">${esc(c.sub)}</div></div>`).join('');
+} else {
+  $('certs').innerHTML = `<div class="card">${tags(P.strengths || [])}</div>`;
+}
+
+$('open-to').textContent = P.openTo;
+$('contact-lines').innerHTML = [
+  P.email && `<a class="c-line" href="mailto:${esc(P.email)}"><span class="ci">${ICONS.email}</span>${esc(P.email)}</a>`,
+  P.phone && `<a class="c-line" href="tel:${esc(P.phone.replace(/\s/g, ''))}"><span class="ci">${ICONS.phone}</span>${esc(P.phone)}</a>`,
+  P.location && `<div class="c-line"><span class="ci">${ICONS.pin}</span>${esc(P.location)}</div>`
+].filter(Boolean).join('');
+$('copy').textContent = `© ${new Date().getFullYear()} ${P.name}. All rights reserved.`;
+
+/* ---- Typing animation ---- */
+(function type() {
+  const el = $('typed');
+  let r = 0, c = 0, deleting = false;
+  (function tick() {
+    const word = P.roles[r];
+    el.textContent = word.slice(0, c);
+    if (!deleting && c === word.length) { deleting = true; return setTimeout(tick, 1400); }
+    if (deleting && c === 0) { deleting = false; r = (r + 1) % P.roles.length; }
+    c += deleting ? -1 : 1;
+    setTimeout(tick, deleting ? 50 : 100);
+  })();
+})();
+
+/* ---- Contact form → opens mail client ---- */
+$('contact-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const subject = $('f-subject').value || `Portfolio enquiry from ${$('f-name').value}`;
+  const body = `${$('f-msg').value}\n\n— ${$('f-name').value} (${$('f-email').value})`;
+  window.location.href = `mailto:${P.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
+
+/* ---- Header, menu, active link, reveal ---- */
+const header = $('header'), navbar = $('navbar');
+$('menu-btn').onclick = () => navbar.classList.toggle('open');
+navbar.querySelectorAll('a').forEach(a => a.onclick = () => navbar.classList.remove('open'));
+
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('sticky', window.scrollY > 60);
+  let current = 'home';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 160) current = s.id; });
+  navbar.querySelectorAll('a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+
+const io = new IntersectionObserver(entries => entries.forEach(en => {
+  if (en.isIntersecting) { en.target.classList.add('show'); io.unobserve(en.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
